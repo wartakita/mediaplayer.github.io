@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        body {
+            background-color: black; /* Set background color to black */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+        #player {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr-chromecast-plugin@latest/dist/clappr-chromecast-plugin.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-pip-plugin@latest/dist/clappr-pip-plugin.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/clappr/dash-shaka-playback@latest/dist/dash-shaka-playback.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/level-selector@0.2.0/dist/level-selector.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flv.js@latest/dist/flv.min.js"></script>
+    <script src="https://cdn.statically.io/gh/andrefilimono/clappr-flvjs-playback/377bd2be/dist/clappr-flvjs-playback.min.js"></script>
+</head>
+<body>
+<div id="player"></div>
+<script>
+    // Mengambil parameter URL 'source'
+    var urlParams = new URLSearchParams(window.location.search);
+    var videoSource = urlParams.get('source') || 'default_video_url'; // Ganti 'default_video_url' dengan URL default jika tidak ada parameter
+
+    var player = new Clappr.Player({
+        source: videoSource,
+        autoPlay: true,
+        height: '100%',
+        width: '100%',
+        plugins: [DashShakaPlayback, FLVJSPlayback, LevelSelector, ChromecastPlugin, ClapprPIPPlugin],
+        poster: '', // URL gambar poster jika ada
+        watermark: '', // URL watermark jika ada
+        position: 'top-right',
+        shakaConfiguration: {
+            drm: {
+                servers: {
+                    'com.widevine.alpha': 'https://cors-proxy.elfsight.com/https://mrpw.ptmnc01.verspective.net/?deviceId=OTQyZjJiZTktNTk1Yi0zYjdhLWFhNWItY2NmNWJhYTAzZTNh'
+                }
+            }
+        },
+        shakaOnBeforeLoad: function(shaka_player) {
+            // Konfigurasi tambahan untuk Shaka Player jika diperlukan
+        },
+        events: {
+            onError: function(event) {
+                console.error("Error:", event);
+                // Jika terjadi kesalahan, alihkan pemutar ke video cadangan
+                player.load('https://github.com/vibetv/comingsoon/raw/main/allcomingsoon.mp4');
+            }
+        },
+        parentId: '#player'
+    });
+</script>
+</body>
+</html>
