@@ -22,6 +22,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/level-selector@0.2.0/dist/level-selector.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flv.js@latest/dist/flv.min.js"></script>
     <script src="https://cdn.statically.io/gh/andrefilimono/clappr-flvjs-playback/377bd2be/dist/clappr-flvjs-playback.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
 </head>
 <body>
 <div id="player"></div>
@@ -58,6 +59,13 @@
         },
         parentId: '#player'
     });
+
+    // Tambahkan dukungan untuk HLS
+    if (Hls.isSupported()) {
+        var hls = new Hls();
+        hls.loadSource(videoSource);
+        hls.attachMedia(player.core.getCurrentContainer().el);
+    }
 </script>
 </body>
 </html>
