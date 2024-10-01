@@ -5,8 +5,11 @@ function decodeBase64(input) {
 var params = new URLSearchParams(location.search);
 
 var vs = {
-    id: "playerjs"
+    id: "playerjs",
+    id: "123",
+    name: "coba"
 };
+
 
 params.forEach((value, key) => {
     // Hanya decode parameter tertentu dari Base64 (misal: 'name')
